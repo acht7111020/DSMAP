@@ -44,7 +44,7 @@ def make_dataset(dir):
 
 class ImageFolder(data.Dataset):
 
-    def __init__(self, root, transform=None, loader=default_loader):
+    def __init__(self, root, new_size=None, transform=None, loader=default_loader):
         imgs = sorted(make_dataset(root))
         if len(imgs) == 0:
             raise(RuntimeError("Found 0 images in: " + root + "\n"
@@ -55,10 +55,20 @@ class ImageFolder(data.Dataset):
         self.imgs = imgs
         self.transform = transform
         self.loader = loader
+        self.new_size = new_size
 
     def __getitem__(self, index):
         path = self.imgs[index]
         img = self.loader(path)
+        if self.new_size:
+            width, height = img.size
+            if width > height:
+                new_width = int(width * (self.new_size/height) / 8) * 8
+                img = img.resize((new_width, self.new_size))
+            else:
+                new_height = int(height * (self.new_size/width) / 8) * 8
+                img = img.resize((self.new_size, new_height))
+
         if self.transform is not None:
             img = self.transform(img)
         return img

@@ -1,7 +1,6 @@
-"""
-Copyright (C) 2020 Hsin-Yu Chang <acht7111020@gmail.com>
-Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
-"""
+# Copyright (C) 2020 Hsin-Yu Chang <acht7111020@gmail.com>
+# Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
+
 # logger options
 image_save_iter: 10000        # How often do you want to save output images during training
 image_display_iter: 100       # How often do you want to display output images during training

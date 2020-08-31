@@ -40,10 +40,10 @@ def get_all_data_loaders(conf):
 
 
 def get_test_data_loaders(path, a2b, new_size=None):
-    test_loader_a = get_data_loader_folder(os.path.join(path, 'testA'), 1, False,
-                                           new_size=new_size, crop=False, num_workers=1)
-    test_loader_b = get_data_loader_folder(os.path.join(path, 'testB'), 1, False,
-                                           new_size=new_size, crop=False, num_workers=1)
+    test_loader_a = get_test_data_loader_folder(os.path.join(path, 'testA'), 1,
+                                                new_size=new_size, num_workers=1)
+    test_loader_b = get_test_data_loader_folder(os.path.join(path, 'testB'), 1,
+                                                new_size=new_size, num_workers=1)
 
     if a2b:
         return test_loader_a, test_loader_b
@@ -62,6 +62,16 @@ def get_data_loader_folder(input_folder, batch_size, train, new_size=None,
     transform = transforms.Compose(transform_list)
     dataset = ImageFolder(input_folder, transform=transform)
     loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=train, drop_last=True, num_workers=num_workers)
+    return loader
+
+
+def get_test_data_loader_folder(input_folder, batch_size, new_size=None, num_workers=4):
+    transform_list = [transforms.ToTensor(),
+                      transforms.Normalize((0.5, 0.5, 0.5),
+                                           (0.5, 0.5, 0.5))]
+    transform = transforms.Compose(transform_list)
+    dataset = ImageFolder(input_folder, new_size=new_size, transform=transform)
+    loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=False, drop_last=True, num_workers=num_workers)
     return loader
 
 
